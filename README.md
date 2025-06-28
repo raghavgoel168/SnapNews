@@ -1,16 +1,42 @@
-# snapnews
+# 📱 SnapNews
 
-A new Flutter project.
+SnapNews is a simple and clean dashboard UI for displaying summarized news articles. This project is part of a news article summarization initiative provided by Times of India.
 
-## Getting Started
+## 📰 About
 
-This project is a starting point for a Flutter application.
+This Flutter-based mobile UI is designed to present AI-summarized news content in an organized and user-friendly manner. It supports displaying article titles, summaries, categories, and more in a clean layout.
 
-A few resources to get you started if this is your first Flutter project:
+## 🔧 Tech Stack
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- Dart
+- Material Design
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 🚀 How to Run
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/raghavgoel168/SnapNews.git
+   cd SnapNews
+2. Get dependencies:
+
+   ```bash
+   flutter pub get
+3. Run the app:
+
+   ```bash
+   flutter run
+
+## 📌 Notes
+
+- This project focuses only on UI. API/backend integration for summarization can be added separately.
+- Designed for mobile (Android) use.
+
+## 📫 Contact
+
+- Raghav Goel
+- raghavgoel168@gmail.com
+- [Linkedin](https://www.linkedin.com/in/raghavgoel29/)
+
+---
