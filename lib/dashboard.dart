@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:snapnews/components/feedback_flags.dart';
+import 'package:snapnews/components/model_api_monitoring.dart';
 
 import 'components/header.dart';
 import 'components/summary_overview.dart';
@@ -19,22 +21,26 @@ class _DashboardState extends State<Dashboard> {
   Widget getScreen(int index) {
     switch (index) {
       case 0:
-        return SummaryOverview();
+        return ModelApiMonitoring();
       case 1:
         return RecentArticlesTable();
       case 2:
         return UserTrends();
       case 3:
+        return FeedbackFlagsSection();
+      case 4:
         return SettingsControlsSection();
       default:
-        return SummaryOverview();
+        return ModelApiMonitoring();
     }
   }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('SnapNews')),
+      key: _scaffoldKey,
       drawer: AppDrawer(onSelect: (index) {
         setState(() {
           selectedIndex = index;
@@ -47,16 +53,15 @@ class _DashboardState extends State<Dashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Header(),
+              Header(onMenuPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              }),
               const SizedBox(height: 20),
-
               getScreen(selectedIndex),
-              // const TopKeywords(),
               const SizedBox(height: 20),
-
-              // Remove Expanded – allow natural height
-              // getScreen(selectedIndex),
-              const TopKeywords(),
+              if (selectedIndex == 0) const SummaryGraphs(),
+              const SizedBox(height: 20),
+              if (selectedIndex == 0) const TopKeywords(),
             ],
           ),
         ),
@@ -64,5 +69,3 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 }
-
-//dashboard

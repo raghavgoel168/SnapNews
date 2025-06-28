@@ -2,68 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class UserTrends extends StatelessWidget {
-   UserTrends({super.key});
+  UserTrends({super.key});
 
   final List<Map<String, dynamic>> trends = const [
-    {
-      'label': 'Politics',
-      'count': 1340,
-    },
-    {
-      'label': 'Sports',
-      'count': 920,
-    },
-    {
-      'label': 'Tech',
-      'count': 710,
-    },
-    {
-      'label': 'Entertainment',
-      'count': 480,
-    },
-    {
-      'label': 'Finance',
-      'count': 310,
-    },
-  ];
-
-  final List<BarChartGroupData> barGroups =  [
-    BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 20, color: Colors.blue)]),
-    BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 35, color: Colors.green)]),
-    BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 25, color: Colors.orange)]),
-    BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 15, color: Colors.purple)]),
-    BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 10, color: Colors.red)]),
+    {'label': 'Politics', 'count': 1340},
+    {'label': 'Sports', 'count': 920},
+    {'label': 'Tech', 'count': 710},
+    {'label': 'Entertainment', 'count': 480},
+    {'label': 'Finance', 'count': 310},
   ];
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text("User Interaction Trends", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        const SizedBox(height: 16),
+    final theme = Theme.of(context);
 
-        const Text("Most Requested Article Types", style: TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 10),
-        Column(
-          children: trends.map((item) {
-            return ListTile(
-              leading: const Icon(Icons.article),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "📊 User Interaction Trends",
+            style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 24),
+
+          Text(
+            "🔥 Most Requested Article Types",
+            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          ...trends.map((item) => Card(
+            elevation: 2,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: ListTile(
+              leading: const Icon(Icons.article_outlined, color: Colors.indigo),
               title: Text(item['label']),
-              trailing: Text('${item['count']} requests'),
-            );
-          }).toList(),
-        ),
+              trailing: Text(
+                '${item['count']} requests',
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+          )),
 
-        const SizedBox(height: 24),
-        const Text("Summary Share & Download Trends", style: TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 200, child: ShareDownloadBarChart()),
+          const SizedBox(height: 32),
+          Text(
+            "📈 Summary Share & Download Trends",
+            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 16),
+          const SizedBox(height: 240, child: ShareDownloadBarChart()),
 
-        const SizedBox(height: 24),
-        const Text("Geo-based Summary Stats", style: TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 8),
-        const Text("🌍 India: 60%  | 🇺🇸 US: 25%  | 🇬🇧 UK: 10%  | Others: 5%")
-      ],
+          const SizedBox(height: 32),
+          Text(
+            "🌐 Geo-based Summary Stats",
+            style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 12),
+          const Text("🇮🇳 India: 60%   |   🇺🇸 US: 25%   |   🇬🇧 UK: 10%   |   🌍 Others: 5%"),
+        ],
+      ),
     );
   }
 }
@@ -73,17 +71,33 @@ class ShareDownloadBarChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<BarChartGroupData> barGroups = [
+      BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 20, color: Colors.indigo, borderRadius: BorderRadius.circular(4))]),
+      BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 35, color: Colors.indigo, borderRadius: BorderRadius.circular(4))]),
+      BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 25, color: Colors.indigo, borderRadius: BorderRadius.circular(4))]),
+      BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 30, color: Colors.indigo, borderRadius: BorderRadius.circular(4))]),
+      BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 15, color: Colors.indigo, borderRadius: BorderRadius.circular(4))]),
+    ];
+
     return BarChart(
       BarChartData(
-        alignment: BarChartAlignment.spaceAround,
         maxY: 40,
+        alignment: BarChartAlignment.spaceAround,
+        barTouchData: BarTouchData(enabled: false),
+        gridData: FlGridData(show: true, drawVerticalLine: false),
+        borderData: FlBorderData(show: false),
         titlesData: FlTitlesData(
           leftTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: true, reservedSize: 28),
+            sideTitles: SideTitles(
+              showTitles: true,
+              reservedSize: 32,
+              getTitlesWidget: (value, _) => Text('${value.toInt()}', style: const TextStyle(fontSize: 10)),
+            ),
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
               showTitles: true,
+              reservedSize: 28,
               getTitlesWidget: (value, _) {
                 switch (value.toInt()) {
                   case 0:
@@ -102,14 +116,10 @@ class ShareDownloadBarChart extends StatelessWidget {
               },
             ),
           ),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
         ),
-        barGroups: [
-          BarChartGroupData(x: 0, barRods: [BarChartRodData(toY: 20, color: Colors.indigo)]),
-          BarChartGroupData(x: 1, barRods: [BarChartRodData(toY: 35, color: Colors.indigo)]),
-          BarChartGroupData(x: 2, barRods: [BarChartRodData(toY: 25, color: Colors.indigo)]),
-          BarChartGroupData(x: 3, barRods: [BarChartRodData(toY: 30, color: Colors.indigo)]),
-          BarChartGroupData(x: 4, barRods: [BarChartRodData(toY: 15, color: Colors.indigo)]),
-        ],
+        barGroups: barGroups,
       ),
     );
   }
